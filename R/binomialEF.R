@@ -1,6 +1,6 @@
 #' Additional Binomial Links for glm Models
 #'
-#' @param link name of link function. One of loglog (Default: loglog)
+#' @param link name of link function. One of loglog, clog (Default: loglog)
 #' @details
 #' family is a generic function with methods for classes "glm" and "lm".
 #'
@@ -47,7 +47,7 @@ binomialEF <- function (link = "loglog")
 {
   assertthat::assert_that(length(link) == 1, msg = "Argument link should have length 1.")
   assertthat::assert_that(is.character(link),msg = "Argument link should be a character.")
-  assertthat::assert_that(link %in% c("loglog"),msg = "Argument link should be 'loglog'.")
+  assertthat::assert_that(link %in% c("loglog", "clog"),msg = "Argument link should be 'loglog' or 'clog'.")
 
   linktemp <- link
   switch(link,
@@ -60,11 +60,24 @@ binomialEF <- function (link = "loglog")
            }
            mu.eta <- function(eta) {
              eta <- pmax(eta, -700)
-             mu <- exp(-exp(-eta)) * exp(-eta)
-             mu <- pmax(mu, .Machine$double.eps)
-             return(mu)
+             dmu <- exp(-exp(-eta)) * exp(-eta)
+             dmu <- pmax(dmu, .Machine$double.eps)
+             return(dmu)
            }
            valideta <- function(eta) {TRUE}
+         },
+         "clog" = {
+           linkfun <- function(mu) {log(1-mu)}
+           linkinv <- function(eta) {
+             mu <- pmin(1 - exp(eta),1 - .Machine$double.eps)
+             mu <- pmax(mu,.Machine$double.eps)
+             return(mu)
+           }
+           mu.eta <- function(eta) {
+             dmu <- -exp(eta)
+             return(dmu)
+           }
+           valideta <- function(eta) {all(eta <= 0)}
          }
   )
 
