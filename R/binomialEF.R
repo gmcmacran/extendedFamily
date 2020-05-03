@@ -66,11 +66,11 @@ binomialEF <- function (link = "loglog")
            }
            valideta <- function(eta) {TRUE}
          },
-         "clog" = {
+         "clog" = { #Need to rename everything to logc
            linkfun <- function(mu) {log(1-mu)}
            linkinv <- function(eta) {
              mu <- pmin(1 - exp(eta),1 - .Machine$double.eps)
-             mu <- pmax(mu,.Machine$double.eps)
+             #mu <- pmax(mu,.Machine$double.eps) # Why does log version in stats not have a pmax?
              return(mu)
            }
            mu.eta <- function(eta) {
