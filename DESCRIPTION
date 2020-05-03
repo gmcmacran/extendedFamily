@@ -4,8 +4,8 @@ Title: Additional Families for glm Models
 Version: 0.1.0
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Creates family objects identical to stats's
+    family but for new links.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -14,4 +14,7 @@ Suggests:
     testthat,
     covr
 Imports: 
-    stats (>= 3.5.3)
+    stats (>= 3.5.3),
+    assertthat (>= 0.2.1)
+Depends:
+    R (>= 3.5.0)
