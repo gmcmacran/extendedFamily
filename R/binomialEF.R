@@ -1,6 +1,6 @@
 #' Additional Binomial Links for glm Models
 #'
-#' @param link name of link function. One of loglog, clog (Default: loglog)
+#' @param link name of link function. One of loglog, logc, or identity (Default: loglog)
 #' @details
 #' family is a generic function with methods for classes "glm" and "lm".
 #'
@@ -47,7 +47,7 @@ binomialEF <- function (link = "loglog")
 {
   assertthat::assert_that(length(link) == 1, msg = "Argument link should have length 1.")
   assertthat::assert_that(is.character(link),msg = "Argument link should be a character.")
-  assertthat::assert_that(link %in% c("loglog", "clog"),msg = "Argument link should be 'loglog' or 'clog'.")
+  assertthat::assert_that(link %in% c("loglog", "logc", "identity"),msg = "Argument link should be 'loglog', 'logc', or 'identity'.")
 
   linktemp <- link
   switch(link,
@@ -66,11 +66,10 @@ binomialEF <- function (link = "loglog")
            }
            valideta <- function(eta) {TRUE}
          },
-         "clog" = { #Need to rename everything to logc
+         "logc" = {
            linkfun <- function(mu) {log(1-mu)}
            linkinv <- function(eta) {
              mu <- pmin(1 - exp(eta),1 - .Machine$double.eps)
-             #mu <- pmax(mu,.Machine$double.eps) # Why does log version in stats not have a pmax?
              return(mu)
            }
            mu.eta <- function(eta) {
@@ -78,6 +77,12 @@ binomialEF <- function (link = "loglog")
              return(dmu)
            }
            valideta <- function(eta) {all(eta <= 0)}
+         },
+         "identity" = {
+           linkfun <- stats::gaussian(link = "identity")$linkfun
+           linkinv <- stats::gaussian(link = "identity")$linkinv
+           mu.eta <- stats::gaussian(link = "identity")$mu.eta
+           valideta <- function(eta) {all(eta >= 0 & eta <= 1)}
          }
   )
 
