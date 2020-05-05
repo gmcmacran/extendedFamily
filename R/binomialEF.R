@@ -34,56 +34,66 @@
 #' @examples
 #' library(stats)
 #' library(extendedFamily)
-#'
+#' 
 #' # loglog example
 #' data(heart)
-#' model <- glm(formula = death ~ anterior + hcabg +
-#'                                 kk2 + kk3 + kk4 + age2 + age3 + age4,
-#'                       data = heart,
-#'                       family = binomialEF(link = "loglog"))
-#'
+#' model <- glm(
+#'   formula = death ~ anterior + hcabg +
+#'     kk2 + kk3 + kk4 + age2 + age3 + age4,
+#'   data = heart,
+#'   family = binomialEF(link = "loglog")
+#' )
 #' @export
-binomialEF <- function (link = "loglog")
-{
+binomialEF <- function(link = "loglog") {
   assertthat::assert_that(length(link) == 1, msg = "Argument link should have length 1.")
-  assertthat::assert_that(is.character(link),msg = "Argument link should be a character.")
-  assertthat::assert_that(link %in% c("loglog", "logc", "identity"),msg = "Argument link should be 'loglog', 'logc', or 'identity'.")
+  assertthat::assert_that(is.character(link), msg = "Argument link should be a character.")
+  assertthat::assert_that(link %in% c("loglog", "logc", "identity"), msg = "Argument link should be 'loglog', 'logc', or 'identity'.")
 
   linktemp <- link
   switch(link,
-         "loglog" = {
-           linkfun <- function(mu) {-log(-log(mu))}
-           linkinv <- function(eta) {
-             mu <- pmin(exp(-exp(-eta)),1 - .Machine$double.eps)
-             mu <- pmax(mu,.Machine$double.eps)
-             return(mu)
-           }
-           mu.eta <- function(eta) {
-             eta <- pmax(eta, -700)
-             dmu <- exp(-exp(-eta)) * exp(-eta)
-             dmu <- pmax(dmu, .Machine$double.eps)
-             return(dmu)
-           }
-           valideta <- function(eta) {TRUE}
-         },
-         "logc" = {
-           linkfun <- function(mu) {log(1-mu)}
-           linkinv <- function(eta) {
-             mu <- pmin(1 - exp(eta),1 - .Machine$double.eps)
-             return(mu)
-           }
-           mu.eta <- function(eta) {
-             dmu <- -exp(eta)
-             return(dmu)
-           }
-           valideta <- function(eta) {all(eta <= 0)}
-         },
-         "identity" = {
-           linkfun <- stats::gaussian(link = "identity")$linkfun
-           linkinv <- stats::gaussian(link = "identity")$linkinv
-           mu.eta <- stats::gaussian(link = "identity")$mu.eta
-           valideta <- function(eta) {all(eta >= 0 & eta <= 1)}
-         }
+    "loglog" = {
+      linkfun <- function(mu) {
+        -log(-log(mu))
+      }
+      linkinv <- function(eta) {
+        mu <- pmin(exp(-exp(-eta)), 1 - .Machine$double.eps)
+        mu <- pmax(mu, .Machine$double.eps)
+        return(mu)
+      }
+      mu.eta <- function(eta) {
+        eta <- pmax(eta, -700)
+        dmu <- exp(-exp(-eta)) * exp(-eta)
+        dmu <- pmax(dmu, .Machine$double.eps)
+        return(dmu)
+      }
+      valideta <- function(eta) {
+        TRUE
+      }
+    },
+    "logc" = {
+      linkfun <- function(mu) {
+        log(1 - mu)
+      }
+      linkinv <- function(eta) {
+        mu <- pmin(1 - exp(eta), 1 - .Machine$double.eps)
+        return(mu)
+      }
+      mu.eta <- function(eta) {
+        dmu <- -exp(eta)
+        return(dmu)
+      }
+      valideta <- function(eta) {
+        all(eta <= 0)
+      }
+    },
+    "identity" = {
+      linkfun <- stats::gaussian(link = "identity")$linkfun
+      linkinv <- stats::gaussian(link = "identity")$linkinv
+      mu.eta <- stats::gaussian(link = "identity")$mu.eta
+      valideta <- function(eta) {
+        all(eta >= 0 & eta <= 1)
+      }
+    }
   )
 
   copyMe <- stats::binomial(link = "cloglog")
@@ -94,17 +104,20 @@ binomialEF <- function (link = "loglog")
   initialize <- copyMe$initialize
   simfun <- copyMe$simfun
 
-  structure(list(family = "binomial",
-                 link = linktemp,
-                 linkfun = linkfun,
-                 linkinv = linkinv,
-                 variance = variance,
-                 dev.resids = dev.resids,
-                 aic = aic,
-                 mu.eta = mu.eta,
-                 initialize = initialize,
-                 validmu = validmu,
-                 valideta = valideta,
-                 simulate = simfun),
-            class = "family")
+  structure(list(
+    family = "binomial",
+    link = linktemp,
+    linkfun = linkfun,
+    linkinv = linkinv,
+    variance = variance,
+    dev.resids = dev.resids,
+    aic = aic,
+    mu.eta = mu.eta,
+    initialize = initialize,
+    validmu = validmu,
+    valideta = valideta,
+    simulate = simfun
+  ),
+  class = "family"
+  )
 }

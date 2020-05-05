@@ -49,9 +49,10 @@ library(extendedFamily)
 
 # loglog example
 data(heart)
-model <- glm(formula = death ~ anterior + hcabg +
-                                kk2 + kk3 + kk4 + age2 + age3 + age4,
-                      data = heart,
-                      family = binomialEF(link = "loglog"))
-
+model <- glm(
+  formula = death ~ anterior + hcabg +
+    kk2 + kk3 + kk4 + age2 + age3 + age4,
+  data = heart,
+  family = binomialEF(link = "loglog")
+)
 }
