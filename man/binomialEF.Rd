@@ -7,7 +7,7 @@
 binomialEF(link = "loglog")
 }
 \arguments{
-\item{link}{name of link function. One of loglog (Default: loglog)}
+\item{link}{name of link function. One of loglog, logc, or identity (Default: loglog)}
 }
 \value{
 An object of class "family" (which has a concise print method). This is a list with elements

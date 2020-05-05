@@ -19,16 +19,18 @@
   \item{age4}{1 - Patient age 80 or higher. 0 - otherwise}
 }}
 \source{
-Dataset comes from Generalized Linear Models and Extensions \url{https://www.stata-press.com/data/glmext.html}
+Hardin, James William., and Joseph Hilbe. Generalized Linear Models and Extensions. Stata Press, 2012.
+
+Dataset can be downloaded at \url{https://www.stata-press.com/data/glmext.html}
 }
 \usage{
-heart
+data(heart)
 }
 \description{
 A dataset containing 4,483 rows about heart attack victims.
 }
 \details{
-The raw dataset is minimally modified in this package. Rows containing missing values were remoded. The center
-variable was dropped. This data is refered to as "heart01" in Generalized Linear Models and Extensions book.
+The raw dataset is minimally modified in this package. Rows containing missing values were removed. The center
+variable was dropped. This data is referred to as "heart01" in Generalized Linear Models and Extensions book.
 }
 \keyword{datasets}
