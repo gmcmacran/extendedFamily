@@ -1,4 +1,4 @@
-context("Testing heat data")
+context("Testing heart data")
 library(extendedFamily)
 
 ################
