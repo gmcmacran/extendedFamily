@@ -1,6 +1,6 @@
 Package: extendedFamily
 Type: Package
-Title: Additional Families for glm Models
+Title: Additional Families for Glm Models
 Version: 0.1.0
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
