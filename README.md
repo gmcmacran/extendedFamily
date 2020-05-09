@@ -13,8 +13,8 @@ coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/bad
 status](https://www.r-pkg.org/badges/version/extendedFamily)](https://cran.r-project.org/package=extendedFamily)
 <!-- badges: end -->
 
-The goal of extendedFamily is to add new links to R’s glm models. These
-families are drop in additions to the existing families.
+The goal of extendedFamily is to add new links to R’s generalized linear
+models. These families are drop in additions to the existing families.
 
 ## Installation
 
