@@ -1,10 +1,10 @@
 Package: extendedFamily
 Type: Package
-Title: Additional Families for Glm Models
+Title: Additional Families for Generalized Linear Models
 Version: 0.1.0
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
-Description: Creates family objects identical to stats's
+Description: Creates family objects identical to stats
     family but for new links.
 License: GPL-3
 Encoding: UTF-8
