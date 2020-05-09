@@ -12,12 +12,9 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
-    covr,
-    knitr,
-    rmarkdown
+    covr
 Imports: 
     stats (>= 3.5.3),
     assertthat (>= 0.2.1)
 Depends:
     R (>= 3.5.0)
-VignetteBuilder: knitr
