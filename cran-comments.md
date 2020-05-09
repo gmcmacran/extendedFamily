@@ -1,15 +1,13 @@
-## Test Environment
-Local Windows 10 R 3.5.3
-Ubuntu using Travis CI
-win-builder R devel
-win-builder R release
+## Test environments
+* Local Windows 10 R 3.5.3
+* Ubuntu using Travis CI
+* win-builder (devel and release)
 
-## Checks
-R 3.5.3 has no warnings, errors, or notes
-R devel has one note
-	* checking CRAN incoming feasibility ... NOTE
-	Maintainer: 'Greg McMahan <gmcmacran@gmail.com>'
-	This note can be ignored.
+## R CMD check results
+
+0 errors | 0 warnings | 1 note
+
+* This is a new release.
 
 ## Downstream dependencies
 There are no downstream dependencies. 
