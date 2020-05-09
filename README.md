@@ -33,7 +33,7 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("gmcmacran/extendedFamily")
 ```
 
-## Example
+## Example: loglog link
 
 The heart data contains info on 4,483 heart attack victims. The goal is
 to predict if a patient died in the next 48 hours following a myocardial
@@ -70,8 +70,10 @@ The low frequency of deaths suggests the loglog link is probably a
 better model than a logit link. Lets find out\!
 
 ``` r
-glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, data = heart, family = binomial(link = "logit"))
-glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, data = heart, family = binomialEF(link = "loglog"))
+glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
+                data = heart, family = binomial(link = "logit"))
+glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
+                 data = heart, family = binomialEF(link = "loglog"))
 ```
 
 Note the minimal code change between the two models. Only the family
