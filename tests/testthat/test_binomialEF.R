@@ -10,6 +10,7 @@ cloglogFam <- stats::binomial(link = "cloglog")
 
 test_that("Has all the correct elements", {
   expect_true(all(names(loglogFam) == names(cloglogFam)))
+  expect_true(all(class(loglogFam) == class(cloglogFam)))
 })
 
 test_that("use complementary pairs relationship to cloglog to confirm results", {
@@ -50,6 +51,7 @@ logFam <- stats::binomial(link = "log")
 
 test_that("Has all the correct elements", {
   expect_true(all(names(logcFam) == names(logFam)))
+  expect_true(all(class(logcFam) == class(logFam)))
 })
 
 
@@ -73,6 +75,7 @@ gaussIdent <- gaussian(link = "identity")
 
 test_that("Has all the correct elements", {
   expect_true(all(names(binomIdent) == c(names(gaussIdent), "simulate")))
+  expect_true(all(class(binomIdent) == class(gaussIdent)))
 })
 
 test_that("use link(inverse_link(X) = X to check link)", {
