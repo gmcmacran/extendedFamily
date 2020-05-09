@@ -22,7 +22,6 @@ You can install the released version of extendedFamily from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-# Not  on cran. Will be soon.
 install.packages("extendedFamily")
 ```
 
