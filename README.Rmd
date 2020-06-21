@@ -41,7 +41,7 @@ devtools::install_github("gmcmacran/extendedFamily")
 The heart data contains info on 4,483 heart attack victims. The goal is to predict if a patient died in the next 48 hours following a myocardial infarction.
 
 ```{r example}
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(yardstick)
 library(extendedFamily)
 
@@ -70,8 +70,8 @@ Lets calculate AUC.
 predictions <- heart %>%
   select(death) %>%
   mutate(death = factor(death, levels = c("1", "0")),
-         logitProb = predict(object = glmLogit, nnewdata = heart, type = "response"),
-         loglogProb = predict(object = glmLoglog, nnewdata = heart, type = "response"))
+         logitProb = predict(object = glmLogit, newdata = heart, type = "response"),
+         loglogProb = predict(object = glmLoglog, newdata = heart, type = "response"))
 
 roc_auc(data = predictions, truth = death, logitProb)
 
