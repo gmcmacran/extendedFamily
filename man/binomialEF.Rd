@@ -4,10 +4,12 @@
 \alias{binomialEF}
 \title{Additional Binomial Links for glm Models}
 \usage{
-binomialEF(link = "loglog")
+binomialEF(link = "loglog", alpha = 1)
 }
 \arguments{
-\item{link}{name of link function. One of loglog, logc, or identity (Default: loglog)}
+\item{link}{name of link function. One of loglog, logc, identity, or  odds-power (Default: loglog)}
+
+\item{alpha}{power for odds-power link. Not used otherwise. (Default: 1)}
 }
 \value{
 An object of class "family" (which has a concise print method). This is a list with elements
