@@ -19,6 +19,11 @@ test_that("use complementary pairs relationship to cloglog to confirm results", 
   expect_true(all(round(loglogFam$mu.eta(seq(-5, 5, .01)), 10) == round(cloglogFam$mu.eta(seq(5, -5, -.01)), 10)))
 })
 
+test_that("use link(inverse_link(X) = X to check link)", {
+  expect_true(isTRUE(all.equal(loglogFam$linkinv(loglogFam$linkfun(seq(0, 1, .01))), seq(0, 1, .01))))
+  expect_true(isTRUE(all.equal(loglogFam$linkfun(loglogFam$linkinv(seq(0, 1, .01))), seq(0, 1, .01))))
+})
+
 rm(loglogFam, cloglogFam)
 
 data(heart)
@@ -60,8 +65,8 @@ test_that("use relationship to log link to check inverse link", {
 })
 
 test_that("use link(inverse_link(X) = X to check link)", {
-  expect_true(all(all.equal(logcFam$linkinv(logcFam$linkfun(seq(0, 1, .1))), seq(0, 1, .1))))
-  expect_true(all(all.equal(logcFam$linkfun(logcFam$linkinv(seq(0, 1, .1))), seq(0, 1, .1))))
+  expect_true(isTRUE(all.equal(logcFam$linkinv(logcFam$linkfun(seq(0, 1, .01))), seq(0, 1, .01))))
+  expect_true(isTRUE(all.equal(logcFam$linkfun(logcFam$linkinv(seq(0, 1, .01))), seq(0, 1, .01))))
 })
 
 rm(logcFam, logFam)
@@ -78,7 +83,7 @@ test_that("Has all the correct elements", {
   expect_true(all(class(binomIdent) == class(gaussIdent)))
 })
 
-test_that("use link(inverse_link(X) = X to check link)", {
+test_that("check against gaussian family)", {
   expect_true(all(round(binomIdent$linkfun(seq(0, 1, .01)), 10) == round(gaussIdent$linkfun(seq(0, 1, .01)), 10)))
   expect_true(all(round(binomIdent$linkinv(seq(0, 1, .01)), 10) == round(gaussIdent$linkinv(seq(0, 1, .01)), 10)))
   expect_true(all(round(binomIdent$mu.eta(seq(-5, 5, .01)), 10) == round(gaussIdent$mu.eta(seq(5, -5, -.01)), 10)))
@@ -87,10 +92,33 @@ test_that("use link(inverse_link(X) = X to check link)", {
 rm(binomIdent, gaussIdent)
 
 ################
+# Test odds-power link
+################
+
+binomOP <- binomialEF(link = "odds-power", alpha = 1)
+gaussIdent <- gaussian(link = "identity")
+
+test_that("Has all the correct elements", {
+  expect_true(all(names(binomOP) == c(names(gaussIdent), "simulate")))
+  expect_true(all(class(binomOP) == class(gaussIdent)))
+})
+
+test_that("use link(inverse_link(X) = X to check link)", {
+  expect_true(isTRUE(all.equal(binomOP$linkinv(binomOP$linkfun(seq(0, .99, .01))), seq(0, .99, .01))))
+  expect_true(isTRUE(all.equal(binomOP$linkfun(binomOP$linkinv(seq(0, .99, .01))), seq(0, .99, .01))))
+})
+
+rm(binomOP, gaussIdent)
+
+################
 # Input checking
 ################
 test_that("Confirm input checking works", {
   expect_error(binomialEF(link = c("loglog", "loglog")))
   expect_error(binomialEF(link = 1234))
   expect_error(binomialEF(link = c("cloglog")))
+
+  expect_error(binomialEF(link = "odds-power", alpha = 0))
+  expect_error(binomialEF(link = "odds-power", alpha = c(-1, 1)))
+  expect_error(binomialEF(link = "odds-power", alpha = "1"))
 })
