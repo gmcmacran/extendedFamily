@@ -1,6 +1,7 @@
 #' Additional Binomial Links for glm Models
 #'
-#' @param link name of link function. One of loglog, logc, or identity (Default: loglog)
+#' @param link name of link function. One of loglog, logc, identity, or  odds-power (Default: loglog)
+#' @param alpha power for odds-power link. Not used otherwise. (Default: 1)
 #' @details
 #' family is a generic function with methods for classes "glm" and "lm".
 #'
@@ -49,12 +50,16 @@
 #'   family = binomialEF(link = "loglog")
 #' )
 #' @export
-binomialEF <- function(link = "loglog") {
+binomialEF <- function(link = "loglog", alpha = 1) {
   # Code is a modification of stats's package family implementation.
 
   assertthat::assert_that(length(link) == 1, msg = "Argument link should have length 1.")
   assertthat::assert_that(is.character(link), msg = "Argument link should be a character.")
-  assertthat::assert_that(link %in% c("loglog", "logc", "identity"), msg = "Argument link should be 'loglog', 'logc', or 'identity'.")
+  assertthat::assert_that(link %in% c("loglog", "logc", "identity", "odds-power"), msg = "Argument link should be 'loglog', 'logc', 'identity', or odds-power.")
+
+  assertthat::assert_that(length(alpha) == 1, msg = "Argument alpha should have length 1.")
+  assertthat::assert_that(is.numeric(alpha), msg = "Argument alpha should be a numeric.")
+  assertthat::assert_that(alpha != 0, msg = "Argument alpha should not be zero.")
 
   linktemp <- link
   switch(link,
@@ -99,6 +104,23 @@ binomialEF <- function(link = "loglog") {
       mu.eta <- stats::gaussian(link = "identity")$mu.eta
       valideta <- function(eta) {
         all(eta >= 0 & eta <= 1)
+      }
+    },
+    "odds-power" = {
+      linkfun <- function(mu) {
+        (mu / (1 - mu)^alpha - 1) / alpha
+      }
+      linkinv <- function(eta) {
+        mu <- ((1 + alpha * eta)^(1 / alpha)) / (1 + (1 + alpha * eta)^(1 / alpha))
+        mu <- pmin(mu, 1 - .Machine$double.eps)
+        return(mu)
+      }
+      mu.eta <- function(eta) {
+        dmu <- (1 + alpha * eta)^((1 - alpha) / alpha) / (1 + (1 + alpha * eta)^(1 / alpha))^2
+        return(dmu)
+      }
+      valideta <- function(eta) {
+        all(eta <= -1 / alpha & eta != ((-1)^alpha - 1) / alpha)
       }
     }
   )
