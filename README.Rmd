@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/extendedFamily)](https://cran.r-project.org/package=extendedFamily)
 <!-- badges: end -->
 
-The goal of extendedFamily is to add new links to R's generalized linear models. These families are drop in additions to the existing families.
+extendedFamily adds new links to R's generalized linear models. These families are drop in additions to the existing families.
 
 ## Installation
 
@@ -40,8 +40,8 @@ devtools::install_github("gmcmacran/extendedFamily")
 
 The heart data contains info on 4,483 heart attack victims. The goal is to predict if a patient died in the next 48 hours following a myocardial infarction.
 
-```{r example}
-library(dplyr, warn.conflicts = FALSE)
+```{r example, message=FALSE}
+library(dplyr)
 library(yardstick)
 library(extendedFamily)
 
@@ -53,7 +53,7 @@ heart %>%
   
 ```
 
-The low frequency of deaths suggests the loglog link is probably a better model than a logit link. Lets find out!
+The low frequency of deaths suggests the loglog link is probably a better model than a logit link. Only the family object needs to change to use the loglog link. 
 
 ```{r trainModels}
 glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
@@ -62,9 +62,7 @@ glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + a
                  data = heart, family = binomialEF(link = "loglog"))
 ```
 
-Note the minimal code change between the two models. Only the family changed.
-
-Lets calculate AUC.
+Given the same data, AUC improved by changing links.
 
 ```{r calcAUC}
 predictions <- heart %>%
@@ -77,5 +75,3 @@ roc_auc(data = predictions, truth = death, logitProb)
 
 roc_auc(data = predictions, truth = death, loglogProb)
 ```
-
-A slightly higher AUC was achieved by simply changing the link.
