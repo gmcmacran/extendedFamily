@@ -40,7 +40,7 @@
 #' @examples
 #' library(stats)
 #' library(extendedFamily)
-#' 
+#'
 #' # loglog example
 #' data(heart)
 #' model <- glm(
@@ -113,6 +113,7 @@ binomialEF <- function(link = "loglog", alpha = 1) {
       linkinv <- function(eta) {
         mu <- ((1 + alpha * eta)^(1 / alpha)) / (1 + (1 + alpha * eta)^(1 / alpha))
         mu <- pmin(mu, 1 - .Machine$double.eps)
+        mu <- pmax(mu, .Machine$double.eps)
         return(mu)
       }
       mu.eta <- function(eta) {
