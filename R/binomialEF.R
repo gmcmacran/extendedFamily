@@ -108,7 +108,7 @@ binomialEF <- function(link = "loglog", alpha = 1) {
     },
     "odds-power" = {
       linkfun <- function(mu) {
-        (mu / (1 - mu)^alpha - 1) / alpha
+        ( (mu / (1 - mu))^alpha - 1) / alpha
       }
       linkinv <- function(eta) {
         mu <- ((1 + alpha * eta)^(1 / alpha)) / (1 + (1 + alpha * eta)^(1 / alpha))
