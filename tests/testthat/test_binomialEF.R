@@ -126,8 +126,48 @@ test_that("Use numerical methods to check derivative of inverse link.", {
 
 rm(binomOP, gaussIdent)
 
+# alpha 4
+binomOP <- binomialEF(link = "odds-power", alpha = 4)
+gaussIdent <- gaussian(link = "identity")
+
+test_that("Has all the correct elements", {
+  expect_true(all(names(binomOP) == c(names(gaussIdent), "simulate")))
+  expect_true(all(class(binomOP) == class(gaussIdent)))
+})
+
+test_that("Use link(inverse_link(X)) = X to check link)", {
+  expect_true(isTRUE(all.equal(binomOP$linkinv(binomOP$linkfun(seq(0, .99, .01))), seq(0, .99, .01))))
+  expect_true(isTRUE(all.equal(binomOP$linkfun(binomOP$linkinv(seq(0, .99, .01))), seq(0, .99, .01))))
+})
+
+test_that("Use numerical methods to check derivative of inverse link.", {
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+})
+
+rm(binomOP, gaussIdent)
+
 # alpha 3
 binomOP <- binomialEF(link = "odds-power", alpha = 3)
+gaussIdent <- gaussian(link = "identity")
+
+test_that("Has all the correct elements", {
+  expect_true(all(names(binomOP) == c(names(gaussIdent), "simulate")))
+  expect_true(all(class(binomOP) == class(gaussIdent)))
+})
+
+test_that("Use link(inverse_link(X)) = X to check link)", {
+  expect_true(isTRUE(all.equal(binomOP$linkinv(binomOP$linkfun(seq(0, .99, .01))), seq(0, .99, .01))))
+  expect_true(isTRUE(all.equal(binomOP$linkfun(binomOP$linkinv(seq(0, .99, .01))), seq(0, .99, .01))))
+})
+
+test_that("Use numerical methods to check derivative of inverse link.", {
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+})
+
+rm(binomOP, gaussIdent)
+
+# alpha 2
+binomOP <- binomialEF(link = "odds-power", alpha = 2)
 gaussIdent <- gaussian(link = "identity")
 
 test_that("Has all the correct elements", {
@@ -166,47 +206,6 @@ test_that("Use numerical methods to check derivative of inverse link.", {
 
 rm(binomOP, gaussIdent)
 
-
-# alpha -1
-binomOP <- binomialEF(link = "odds-power", alpha = -1)
-gaussIdent <- gaussian(link = "identity")
-
-test_that("Has all the correct elements", {
-  expect_true(all(names(binomOP) == c(names(gaussIdent), "simulate")))
-  expect_true(all(class(binomOP) == class(gaussIdent)))
-})
-
-test_that("Use link(inverse_link(X)) = X to check link)", {
-  expect_true(isTRUE(all.equal(binomOP$linkinv(binomOP$linkfun(seq(.01, .99, .01))), seq(.01, .99, .01))))
-  expect_true(isTRUE(all.equal(binomOP$linkfun(binomOP$linkinv(seq(.01, .99, .01))), seq(.01, .99, .01))))
-})
-
-test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(.01, .99, .01)), numDeriv::grad(binomOP$linkinv, seq(.01, .99, .01)))))
-})
-
-rm(binomOP, gaussIdent)
-
-# alpha -2
-binomOP <- binomialEF(link = "odds-power", alpha = -3)
-gaussIdent <- gaussian(link = "identity")
-
-test_that("Has all the correct elements", {
-  expect_true(all(names(binomOP) == c(names(gaussIdent), "simulate")))
-  expect_true(all(class(binomOP) == class(gaussIdent)))
-})
-
-test_that("Use link(inverse_link(X)) = X to check link)", {
-  expect_true(isTRUE(all.equal(binomOP$linkinv(binomOP$linkfun(seq(-.99, -.01, .01))), seq(-.99, -.01, .01))))
-  expect_true(isTRUE(all.equal(binomOP$linkfun(binomOP$linkinv(seq(-.99, -.01, .01))), seq(-.99, -.01, .01))))
-})
-
-test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-.99, -.01, .01)), numDeriv::grad(binomOP$linkinv, seq(-.99, -.01, .01)))))
-})
-
-rm(binomOP, gaussIdent)
-
 ################
 # Input checking
 ################
@@ -215,6 +214,7 @@ test_that("Confirm input checking works", {
   expect_error(binomialEF(link = 1234))
   expect_error(binomialEF(link = c("cloglog")))
 
+  expect_error(binomialEF(link = "odds-power", alpha = 1.1))
   expect_error(binomialEF(link = "odds-power", alpha = 0))
   expect_error(binomialEF(link = "odds-power", alpha = c(-1, 1)))
   expect_error(binomialEF(link = "odds-power", alpha = "1"))
