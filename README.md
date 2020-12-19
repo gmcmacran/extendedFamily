@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/gmcmacran/extendedFamily.svg?branch=master)](https://travis-ci.org/gmcmacran/extendedFamily)
 [![Codecov test
 coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/extendedFamily?branch=master)
 [![CRAN
