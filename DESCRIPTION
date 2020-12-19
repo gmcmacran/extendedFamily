@@ -1,7 +1,7 @@
 Package: extendedFamily
 Type: Package
 Title: Additional Families for Generalized Linear Models
-Version: 0.1.1
+Version: 0.2.99999
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
 Description: Creates family objects identical to stats
@@ -15,6 +15,7 @@ Suggests:
     covr
 Imports: 
     stats (>= 3.5.3),
-    assertthat (>= 0.2.1)
+    assertthat (>= 0.2.1),
+    numDeriv (>= 2016.8-1)
 Depends:
     R (>= 3.5.0)

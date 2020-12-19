@@ -13,8 +13,8 @@ coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/bad
 status](https://www.r-pkg.org/badges/version/extendedFamily)](https://cran.r-project.org/package=extendedFamily)
 <!-- badges: end -->
 
-The goal of extendedFamily is to add new links to R’s generalized linear
-models. These families are drop in additions to the existing families.
+extendedFamily adds new links to R’s generalized linear models. These
+families are drop in additions to the existing families.
 
 ## Installation
 
@@ -39,10 +39,8 @@ to predict if a patient died in the next 48 hours following a myocardial
 infarction.
 
 ``` r
-library(dplyr, warn.conflicts = FALSE)
+library(dplyr)
 library(yardstick)
-#> For binary classification, the first factor level is assumed to be the event.
-#> Set the global option `yardstick.event_first` to `FALSE` to change this.
 library(extendedFamily)
 
 data(heart)
@@ -58,7 +56,8 @@ heart %>%
 ```
 
 The low frequency of deaths suggests the loglog link is probably a
-better model than a logit link. Lets find out\!
+better model than a logit link. Only the family object needs to change
+to use the loglog link.
 
 ``` r
 glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
@@ -67,10 +66,7 @@ glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + a
                  data = heart, family = binomialEF(link = "loglog"))
 ```
 
-Note the minimal code change between the two models. Only the family
-changed.
-
-Lets calculate AUC.
+Given the same data, AUC improved by changing links.
 
 ``` r
 predictions <- heart %>%
@@ -91,5 +87,3 @@ roc_auc(data = predictions, truth = death, loglogProb)
 #>   <chr>   <chr>          <dbl>
 #> 1 roc_auc binary         0.801
 ```
-
-A slightly higher AUC was achieved by simply changing the link.
