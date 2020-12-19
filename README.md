@@ -9,6 +9,8 @@
 coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/extendedFamily?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/extendedFamily)](https://cran.r-project.org/package=extendedFamily)
+[![R build
+status](https://github.com/gmcmacran/extendedFamily/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/extendedFamily/actions)
 <!-- badges: end -->
 
 extendedFamily adds new links to R’s generalized linear models. These
