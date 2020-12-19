@@ -40,7 +40,7 @@
 #' @examples
 #' library(stats)
 #' library(extendedFamily)
-#' 
+#'
 #' # loglog example
 #' data(heart)
 #' model <- glm(
@@ -57,9 +57,11 @@ binomialEF <- function(link = "loglog", alpha = 1) {
   assertthat::assert_that(is.character(link), msg = "Argument link should be a character.")
   assertthat::assert_that(link %in% c("loglog", "logc", "identity", "odds-power"), msg = "Argument link should be 'loglog', 'logc', 'identity', or 'odds-power'.")
 
-  assertthat::assert_that(length(alpha) == 1, msg = "Argument alpha should have length 1.")
-  assertthat::assert_that(alpha %% 1 == 0, msg = "Argument alpha should be a whole number.")
-  assertthat::assert_that(alpha > 0L, msg = "Argument alpha should be positive.")
+  if (link == "odds-power") {
+    assertthat::assert_that(length(alpha) == 1, msg = "Argument alpha should have length 1.")
+    assertthat::assert_that(alpha %% 1 == 0, msg = "Argument alpha should be a whole number.")
+    assertthat::assert_that(alpha > 0L, msg = "Argument alpha should be positive.")
+  }
 
   linktemp <- link
   switch(link,
