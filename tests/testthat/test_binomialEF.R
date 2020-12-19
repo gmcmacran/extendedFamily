@@ -204,7 +204,7 @@ test_that("Use numerical methods to check derivative of inverse link.", {
 test_that("Confirm valideta works as expected", {
   expect_true(binomOP$valideta(seq(-.33, 10, .01)))
   expect_false(binomOP$valideta(seq(-10, -.34, .01)))
-  expect_false(binomOP$valideta(-2/3))
+  expect_false(binomOP$valideta(-2 / 3))
 })
 
 rm(binomOP, gaussIdent)
