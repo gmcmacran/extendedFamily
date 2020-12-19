@@ -37,10 +37,14 @@
 #'         but it can also return a list of length nsim. Clearly this will be missing for ‘quasi-’ families.
 #'         }
 #'
+#' The loglog link is robust in that it works well for many datasets. The range of the link is negative
+#' infinity to positive infinity. For all other links, this is not true. This can cause glm to fail to converge
+#' and/or print warnings. If glm prints warnings, don't use the link for your data.
+#'
 #' @examples
 #' library(stats)
 #' library(extendedFamily)
-#'
+#' 
 #' # loglog example
 #' data(heart)
 #' model <- glm(
