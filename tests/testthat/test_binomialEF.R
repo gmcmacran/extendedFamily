@@ -25,7 +25,11 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(loglogFam$mu.eta(seq(0, 1, .01)), numDeriv::grad(loglogFam$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(loglogFam$mu.eta(seq(-5, 5, .01)), numDeriv::grad(loglogFam$linkinv, seq(-5, 5, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(loglogFam$valideta(seq(-5, 5, .01)))
 })
 
 rm(loglogFam, cloglogFam)
@@ -74,7 +78,12 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(logcFam$mu.eta(seq(0, 1, .01)), numDeriv::grad(logcFam$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(logcFam$mu.eta(seq(-10, 0, .01)), numDeriv::grad(logcFam$linkinv, seq(-10, 0, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(logcFam$valideta(seq(-10, 0, .01)))
+  expect_false(logcFam$valideta(seq(.01, 10, .01)))
 })
 
 rm(logcFam, logFam)
@@ -97,8 +106,19 @@ test_that("Check against gaussian family)", {
   expect_true(all(round(binomIdent$mu.eta(seq(-5, 5, .01)), 10) == round(gaussIdent$mu.eta(seq(5, -5, -.01)), 10)))
 })
 
+test_that("Use link(inverse_link(X)) = X to check link)", {
+  expect_true(isTRUE(all.equal(binomIdent$linkinv(binomIdent$linkfun(seq(0, 1, .01))), seq(0, 1, .01))))
+  expect_true(isTRUE(all.equal(binomIdent$linkfun(binomIdent$linkinv(seq(0, 1, .01))), seq(0, 1, .01))))
+})
+
 test_that("Use numerical methods to check derivative of inverse link.", {
   expect_true(isTRUE(all.equal(binomIdent$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomIdent$linkinv, seq(0, 1, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomIdent$valideta(seq(0, 1, .01)))
+  expect_false(binomIdent$valideta(seq(-1, -.01, .01)))
+  expect_false(binomIdent$valideta(seq(1.1, 10, .01)))
 })
 
 rm(binomIdent, gaussIdent)
@@ -121,7 +141,13 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-.20, 10, .01)), numDeriv::grad(binomOP$linkinv, seq(-.20, 10, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomOP$valideta(seq(-.20, 10, .01)))
+  expect_false(binomOP$valideta(seq(-10, -.19, .01)))
+  expect_false(binomOP$valideta(-.40))
 })
 
 rm(binomOP, gaussIdent)
@@ -141,7 +167,15 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(.01, 10, .01)), numDeriv::grad(binomOP$linkinv, seq(.01, 10, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-.25, -.01, .01)), numDeriv::grad(binomOP$linkinv, seq(-.25, -.01, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomOP$valideta(seq(.01, 10, .01)))
+  expect_true(binomOP$valideta(seq(-.25, -.01, .01)))
+  expect_false(binomOP$valideta(seq(-10, -.24, .01)))
+  expect_false(binomOP$valideta(0))
 })
 
 rm(binomOP, gaussIdent)
@@ -161,7 +195,13 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-.33, 10, .01)), numDeriv::grad(binomOP$linkinv, seq(-.33, 10, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomOP$valideta(seq(-.33, 10, .01)))
+  expect_false(binomOP$valideta(seq(-10, -.34, .01)))
+  expect_false(binomOP$valideta(-2/3))
 })
 
 rm(binomOP, gaussIdent)
@@ -184,6 +224,18 @@ test_that("Use numerical methods to check derivative of inverse link.", {
   expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
 })
 
+test_that("Use numerical methods to check derivative of inverse link.", {
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(.01, 10, .01)), numDeriv::grad(binomOP$linkinv, seq(.01, 10, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-.50, -.01, .01)), numDeriv::grad(binomOP$linkinv, seq(-.50, -.01, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomOP$valideta(seq(.01, 10, .01)))
+  expect_true(binomOP$valideta(seq(-.50, -.01, .01)))
+  expect_false(binomOP$valideta(seq(-10, -.49, .01)))
+  expect_false(binomOP$valideta(0))
+})
+
 rm(binomOP, gaussIdent)
 
 # alpha 1
@@ -201,7 +253,13 @@ test_that("Use link(inverse_link(X)) = X to check link)", {
 })
 
 test_that("Use numerical methods to check derivative of inverse link.", {
-  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(0, 1, .01)), numDeriv::grad(binomOP$linkinv, seq(0, 1, .01)))))
+  expect_true(isTRUE(all.equal(binomOP$mu.eta(seq(-1, 10, .01)), numDeriv::grad(binomOP$linkinv, seq(-1, 10, .01)))))
+})
+
+test_that("Confirm valideta works as expected", {
+  expect_true(binomOP$valideta(seq(-1, 10, .01)))
+  expect_false(binomOP$valideta(seq(-10, -1.01, .01)))
+  expect_false(binomOP$valideta(-2))
 })
 
 rm(binomOP, gaussIdent)
