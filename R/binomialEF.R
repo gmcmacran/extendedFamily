@@ -1,9 +1,13 @@
-#' Additional Binomial Links for glm Models
+#' Additional Binomial Links For Generalized Linear Models
 #'
 #' @param link name of link function. One of loglog, logc, identity, or  odds-power (Default: loglog)
 #' @param alpha power for odds-power link. Not used otherwise. (Default: 1)
 #' @details
 #' family is a generic function with methods for classes "glm" and "lm".
+#'
+#' The loglog link works well for many datasets. The range of the link is negative
+#' infinity to positive infinity. For all other links, this is not true. This can cause a failure to converge in R's
+#' glm function. If this happens, the link does not work well for the training data. Try another link.
 #'
 #' @return An object of class "family" (which has a concise print method). This is a list with elements
 #'
@@ -37,14 +41,11 @@
 #'         but it can also return a list of length nsim. Clearly this will be missing for ‘quasi-’ families.
 #'         }
 #'
-#' The loglog link is robust in that it works well for many datasets. The range of the link is negative
-#' infinity to positive infinity. For all other links, this is not true. This can cause glm to fail to converge
-#' and/or print warnings. If glm prints warnings, don't use the link for your data.
 #'
 #' @examples
 #' library(stats)
 #' library(extendedFamily)
-#' 
+#'
 #' # loglog example
 #' data(heart)
 #' model <- glm(

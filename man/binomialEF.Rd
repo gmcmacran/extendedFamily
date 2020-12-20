@@ -2,7 +2,7 @@
 % Please edit documentation in R/binomialEF.R
 \name{binomialEF}
 \alias{binomialEF}
-\title{Additional Binomial Links for glm Models}
+\title{Additional Binomial Links For Generalized Linear Models}
 \usage{
 binomialEF(link = "loglog", alpha = 1)
 }
@@ -43,16 +43,16 @@ An object of class "family" (which has a concise print method). This is a list w
         It will normally return a matrix with nsim columns and one row for each fitted value,
         but it can also return a list of length nsim. Clearly this will be missing for ‘quasi-’ families.
         }
-
-The loglog link is robust in that it works well for many datasets. The range of the link is negative
-infinity to positive infinity. For all other links, this is not true. This can cause glm to fail to converge
-and/or print warnings. If glm prints warnings, don't use the link for your data.
 }
 \description{
-Additional Binomial Links for glm Models
+Additional Binomial Links For Generalized Linear Models
 }
 \details{
 family is a generic function with methods for classes "glm" and "lm".
+
+The loglog link works well for many datasets. The range of the link is negative
+infinity to positive infinity. For all other links, this is not true. This can cause a failure to converge in R's
+glm function. If this happens, the link does not work well for the training data. Try another link.
 }
 \examples{
 library(stats)
