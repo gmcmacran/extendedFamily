@@ -20,16 +20,25 @@ families are drop in additions to the existing families.
 
 The generalized linear model is
 
-\[ g(Y) = B_0 + B_1X_1 \]
+  
+![ g(Y) = B\_0 + B\_1X\_1
+](https://latex.codecogs.com/png.latex?%20g%28Y%29%20%3D%20B_0%20%2B%20B_1X_1%20
+" g(Y) = B_0 + B_1X_1 ")  
 
 with g being a link function. For the binomial family, the link is
 usually the logit which makes the model
 
-\[ ln(\frac{P(Y = 1)}{1 - P(Y = 1)}) = B_0 + B_1X_1 \]
+  
+![ ln(\\frac{P(Y = 1)}{1 - P(Y = 1)}) = B\_0 + B\_1X\_1
+](https://latex.codecogs.com/png.latex?%20ln%28%5Cfrac%7BP%28Y%20%3D%201%29%7D%7B1%20-%20P%28Y%20%3D%201%29%7D%29%20%3D%20B_0%20%2B%20B_1X_1%20
+" ln(\\frac{P(Y = 1)}{1 - P(Y = 1)}) = B_0 + B_1X_1 ")  
 
 Using the loglog link, the model is
 
-\[ -ln(-ln(P(Y = 1))) = B_0 + B_1X_1 \]
+  
+![ -ln(-ln(P(Y = 1))) = B\_0 + B\_1X\_1
+](https://latex.codecogs.com/png.latex?%20-ln%28-ln%28P%28Y%20%3D%201%29%29%29%20%3D%20B_0%20%2B%20B_1X_1%20
+" -ln(-ln(P(Y = 1))) = B_0 + B_1X_1 ")  
 
 The loglog model assigns a lower probability for X ranging from -5 to 2.
 The biggest differences are around -1. For X over 2, the models are
