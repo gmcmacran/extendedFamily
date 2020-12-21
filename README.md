@@ -1,48 +1,49 @@
+extendedFamily
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# extendedFamily
-
 <!-- badges: start -->
 
-[![Codecov test
-coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/extendedFamily?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/extendedFamily)](https://cran.r-project.org/package=extendedFamily)
 [![R build
 status](https://github.com/gmcmacran/extendedFamily/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/extendedFamily/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/extendedFamily?branch=master)
 <!-- badges: end -->
 
 extendedFamily adds new links to R’s generalized linear models. These
 families are drop in additions to the existing families.
 
-## Installation
+## Logit vs Loglog: Mathematical Comparison
 
-You can install the released version of extendedFamily from
-[CRAN](https://CRAN.R-project.org) with:
+The generalized linear model is
 
-``` r
-install.packages("extendedFamily")
-```
+\[ g(Y) = B_0 + B_1X_1 \]
 
-And the development version from [GitHub](https://github.com/) with:
+with g being a link function. For the binomial family, the link is
+usually the logit which makes the model
 
-``` r
-# install.packages("devtools")
-devtools::install_github("gmcmacran/extendedFamily")
-```
+\[ ln(\frac{P(Y = 1)}{1 - P(Y = 1)}) = B_0 + B_1X_1 \]
 
-## Example: loglog link
+Using the loglog link, the model is
+
+\[ -ln(-ln(P(Y = 1))) = B_0 + B_1X_1 \]
+
+The loglog model assigns a lower probability for X ranging from -5 to 2.
+The biggest differences are around -1. For X over 2, the models are
+essentially indistinguishable.
+<img src="man/figures/README-graphExample-1.png" width="100%" />
+
+## Logit vs Loglog: Model Performance on Real World Data
 
 The heart data contains info on 4,483 heart attack victims. The goal is
 to predict if a patient died in the next 48 hours following a myocardial
-infarction.
+infarction. The low frequency of deaths suggests the loglog link is
+probably a better than the logit link.
 
 ``` r
-library(dplyr)
-library(yardstick)
-library(extendedFamily)
-
 data(heart)
 
 heart %>%
@@ -55,9 +56,7 @@ heart %>%
 #> 2     1   176
 ```
 
-The low frequency of deaths suggests the loglog link is probably a
-better model than a logit link. Only the family object needs to change
-to use the loglog link.
+Only the family object needs to change to use the loglog link.
 
 ``` r
 glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
@@ -66,7 +65,7 @@ glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + a
                  data = heart, family = binomialEF(link = "loglog"))
 ```
 
-Given the same data, AUC improved by changing links.
+Given the same data, AUC is slightly higher for the loglog link.
 
 ``` r
 predictions <- heart %>%
