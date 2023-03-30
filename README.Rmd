@@ -23,7 +23,14 @@ knitr::opts_chunk$set(
 
 extendedFamily adds new links to R's generalized linear models. These families are drop in additions to existing families.
 
-## Logit vs Loglog: Mathematical Comparison
+Links:
+
+* loglog
+* logc
+* identity
+* odds-power
+
+## Logit and Loglog: Mathematical Comparison
 
 For the binomial family, the link is usually the logit but there are other options. The loglog model assigns a lower probability for X ranging from -5 to 2. For X over 2, the models are essentially indistinguishable. This can lead to improved performance when the response rate is much lower than 50%.
 
@@ -55,7 +62,7 @@ ggplot(temp, aes(x = X, y = Probability, colour = Link)) +
 ```
 
 
-## Logit vs Loglog: Model Performance on Real World Data
+## Logit and Loglog: Model Performance on Real World Data
 
 The heart data contains info on 4,483 heart attack victims. The goal is to predict if a patient died in the next 48 hours following a myocardial infarction. The low death rate makes this data set a good candidate for the loglog link.
 
