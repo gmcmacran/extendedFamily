@@ -47,18 +47,21 @@ loglogLink <- binomialEF(link = "loglog")
 
 temp <- bind_rows(
   tibble(X = seq(-5, 5, .01)) %>%
-    mutate(Probability = logitLink$linkinv(X),
-           Link = "logit"),
+    mutate(
+      Probability = logitLink$linkinv(X),
+      Link = "logit"
+    ),
   tibble(X = seq(-5, 5, .01)) %>%
-    mutate(Probability = loglogLink$linkinv(X),
-           Link = "loglog")
+    mutate(
+      Probability = loglogLink$linkinv(X),
+      Link = "loglog"
+    )
 )
 
-ggplot(temp, aes(x = X, y = Probability, colour = Link)) + 
+ggplot(temp, aes(x = X, y = Probability, colour = Link)) +
   geom_line() +
-  scale_x_continuous(breaks = seq(-5, 5, 1)) + 
+  scale_x_continuous(breaks = seq(-5, 5, 1)) +
   scale_y_continuous(breaks = seq(0, 1, .1))
-
 ```
 
 
@@ -76,10 +79,14 @@ heart %>%
 Only the family object needs to change to use the loglog link. 
 
 ```{r trainModels}
-glmLogit <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
-                data = heart, family = binomial(link = "logit"))
-glmLoglog <- glm(formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, 
-                 data = heart, family = binomialEF(link = "loglog"))
+glmLogit <- glm(
+  formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4,
+  data = heart, family = binomial(link = "logit")
+)
+glmLoglog <- glm(
+  formula = death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4,
+  data = heart, family = binomialEF(link = "loglog")
+)
 ```
 
 AUC improved by changing the link.
@@ -87,9 +94,11 @@ AUC improved by changing the link.
 ```{r calcAUC}
 predictions <- heart %>%
   select(death) %>%
-  mutate(death = factor(death, levels = c("1", "0")),
-         logitProb = predict(object = glmLogit, newdata = heart, type = "response"),
-         loglogProb = predict(object = glmLoglog, newdata = heart, type = "response"))
+  mutate(
+    death = factor(death, levels = c("1", "0")),
+    logitProb = predict(object = glmLogit, newdata = heart, type = "response"),
+    loglogProb = predict(object = glmLoglog, newdata = heart, type = "response")
+  )
 
 roc_auc(data = predictions, truth = death, logitProb)
 
