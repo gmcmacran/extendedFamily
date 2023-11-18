@@ -67,7 +67,7 @@ ggplot(temp, aes(x = X, y = Probability, colour = Link)) +
 
 ## Logit and Loglog: Model Performance on Real World Data
 
-The heart data contains info on 4,483 heart attack victims. The goal is to predict if a patient died in the next 48 hours following a myocardial infarction. The low death rate makes this data set a good candidate for the loglog link.
+The heart data contains info on 4,483 heart attack victims. The goal is to predict if a patient died in the next 48 hours following a myocardial infarction. The low death rate makes this dataset a good candidate for the loglog link.
 
 ```{r dataExample, message=FALSE}
 data(heart)
@@ -95,12 +95,37 @@ AUC improved by changing the link.
 predictions <- heart %>%
   select(death) %>%
   mutate(
-    death = factor(death, levels = c("1", "0")),
+    death = factor(death, levels = c("0", "1")),
     logitProb = predict(object = glmLogit, newdata = heart, type = "response"),
     loglogProb = predict(object = glmLoglog, newdata = heart, type = "response")
   )
 
-roc_auc(data = predictions, truth = death, logitProb)
+roc_auc(data = predictions, truth = death, event_level = "second", logitProb)
 
-roc_auc(data = predictions, truth = death, loglogProb)
+roc_auc(data = predictions, truth = death, event_level = "second", loglogProb)
+```
+
+## Tidymodels
+
+The family objects integrate with Tidymodels.
+
+```{r tidy, message=FALSE}
+library(tidymodels)
+
+heart <- heart %>%
+  mutate(death = factor(death, levels = c("0", "1")))
+
+parsnip_fit <-
+  logistic_reg() %>%
+  set_engine("glm", family = binomialEF("loglog")) %>%
+  fit(death ~ anterior + hcabg + kk2 + kk3 + kk4 + age2 + age3 + age4, data = heart)
+
+testPredictions <- parsnip_fit %>%
+  predict(new_data = heart, type = "prob")
+testPredictions <- heart %>%
+  select(death) %>%
+  bind_cols(testPredictions)
+
+testPredictions %>%
+  roc_auc(truth = death, event_level = "second", .pred_1)
 ```
