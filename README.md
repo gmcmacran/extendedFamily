@@ -2,6 +2,7 @@ extendedFamily
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/gmcmacran/extendedFamily/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gmcmacran/extendedFamily/actions/workflows/R-CMD-check.yaml)
@@ -9,6 +10,8 @@ extendedFamily
 coverage](https://codecov.io/gh/gmcmacran/extendedFamily/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gmcmacran/extendedFamily?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/extendedFamily)](https://CRAN.R-project.org/package=extendedFamily)
+[![Codecov test
+coverage](https://codecov.io/gh/gmcmacran/extendedFamily/graph/badge.svg)](https://app.codecov.io/gh/gmcmacran/extendedFamily)
 <!-- badges: end -->
 
 extendedFamily adds new links to R’s generalized linear models. These
@@ -29,7 +32,7 @@ ranging from -5 to 2. For X over 2, the models are essentially
 indistinguishable. This can lead to improved performance when the
 response rate is much lower than 50%.
 
-<img src="man/figures/README-graphExample-1.png" width="100%" />
+<img src="man/figures/README-graphExample-1.png" alt="" width="100%" />
 
 ## Logit and Loglog: Model Performance on Real World Data
 
