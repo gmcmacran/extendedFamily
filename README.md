@@ -89,7 +89,7 @@ roc_auc(data = predictions, truth = death, event_level = "second", loglogProb)
 
 ## Tidymodels
 
-The family objects integrate with Tidymodels.
+The family objects integrate with Tidymodels. Foo
 
 ``` r
 library(tidymodels)
